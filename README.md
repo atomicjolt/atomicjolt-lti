@@ -1,4 +1,4 @@
-# Project Title
+# AtomicJolt LTI
 This is a collection of Javascript used by Atomic Jolt to assist in handling an LTI launch.
 
 ## Installation
