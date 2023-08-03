@@ -1,7 +1,7 @@
 {
-  "name": "@atomicjolt/lti",
+  "name": "@atomicjolt/lti-server",
   "version": "1.0.0",
-  "description": "Javascript libraries to handle LTI",
+  "description": "Server side Javascript libraries to handle LTI",
   "main": "index.js",
   "scripts": {
     "build": "node esbuild.mjs",
@@ -21,6 +21,7 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
+    "@atomicjolt/lti-client": "file:../atomicjolt-lti-client",
     "i18next": "^23.2.8",
     "i18next-browser-languagedetector": "^7.1.0"
   }

@@ -1,20 +1,37 @@
+import type { 
+  InitSettings,
+} from '@atomicjolt-client/src/types';
+
 import { OPEN_ID_COOKIE_PREFIX } from './constants';
-import { InitSettings, OIDCState } from '../types';
+import { OIDCState } from '../types';
 import { getLtiStorageParams } from './platforms';
 
-export function buildOIDCState(
-	requestUrl: string,
-	clientId: string,
-	loginHint: string,
-	ltiMessageHint: string,
-	target: string,
-  platformOIDCUrl: string,
-): {
-	state: string;
-	oidcState: OIDCState;
-	url: URL;
-	settings: InitSettings;
-} {
+export function buildInit(requestUrl: string, clientId: string, loginHint: string, ltiMessageHint: string, target: string, platformOIDCUrl: string) {
+	const host = new URL(requestUrl).host;
+	const redirectUrl = `https://${host}/lti/redirect`;
+	
+	const oidcState = buildOIDCState();
+	const url = buildResponse(
+		platformOIDCUrl,
+		oidcState.state,
+		clientId,
+		loginHint,
+		ltiMessageHint,
+		oidcState.nonce,
+		redirectUrl
+	);
+	const ltiStorageParams = getLtiStorageParams(platformOIDCUrl, target);
+	const settings: InitSettings = {
+		state: oidcState.state,
+		responseUrl: url.toString(),
+		ltiStorageParams,
+		relaunchInitUrl: relaunchInitUrl(requestUrl),
+		openIdCookiePrefix: OPEN_ID_COOKIE_PREFIX,
+	};
+	return { oidcState, url, settings };
+}
+
+export function buildOIDCState(): OIDCState {
 	const nonce = crypto.randomUUID();
 	const state = crypto.randomUUID();
 	const oidcState: OIDCState = {
@@ -22,27 +39,7 @@ export function buildOIDCState(
 		nonce,
 		datetime: new Date().toISOString(),
 	};
-	const host = new URL(requestUrl).host;
-	const redirectUrl = `https://${host}/lti/redirect`;
-	const url = buildResponse(
-		platformOIDCUrl,
-		state,
-		clientId,
-		loginHint,
-		ltiMessageHint,
-		nonce,
-		redirectUrl
-	);
-
-	const ltiStorageParams = getLtiStorageParams(platformOIDCUrl, target);
-	const settings: InitSettings = {
-		state,
-		responseUrl: url.toString(),
-		ltiStorageParams,
-		relaunchInitUrl: relaunchInitUrl(requestUrl),
-		openIdCookiePrefix: OPEN_ID_COOKIE_PREFIX,
-	};
-	return { state, oidcState, url, settings };
+	return oidcState;
 }
 
 export function buildResponse(
