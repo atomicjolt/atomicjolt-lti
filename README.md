@@ -1,12 +1,14 @@
 # AtomicJolt LTI
-This is a collection of Javascript used by Atomic Jolt to assist in handling an LTI launch.
+This is a collection of Javascript used by Atomic Jolt to assist in handling an LTI launch on the server.
 
 ## Installation
 
-    `npm i @atomicjolt/lti`
+    `npm i @atomicjolt/lti-server`
 
 ## Usage
-The application code using this library must implement the LTI Launch in 3 phases, providing the server side code for each phase and returning and html response for each phase. Phases 1 and 3 will include a call to the client side javacript contained in this library. See the 1Edtech working group documentation for more information about the LTI standard: https://www.imsglobal.org/activity/learning-tools-interoperability
+For an example of how to use this library see https://github.com/atomicjolt/atomic-lti-worker
+
+The application code using this library must implement the LTI Launch in 3 phases, providing the server side code for each phase and returning and html response for each phase. Phases 1 and 3 will include a call to the client side javacript contained in this library. See the 1Edtech working group documentation for more information about the LTI standard: https://www.imsglobal.org/activity/learning-tools-interoperability.
 
 1. Open ID Connect initialization
 During this phase respond to the OIDC initialization request, attempt to write a state cookie and return and html page with a call to `InitOIDCLaunch`
