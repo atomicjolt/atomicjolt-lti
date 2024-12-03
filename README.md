@@ -1,4 +1,8 @@
 # AtomicJolt LTI
+
+>[!IMPORTANT] 
+> This project is now maintained as part of [this repo](https://github.com/atomicjolt/atomic-libs)
+
 This is a collection of Javascript used by Atomic Jolt to assist in handling an LTI launch on the server.
 
 ## Installation
